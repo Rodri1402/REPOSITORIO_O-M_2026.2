@@ -1,0 +1,419 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "cfabee0c-2a24-4e1b-bedd-c11a3624b349",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6634628f-94bd-4502-bea2-880a4a4103c8",
+              "leftValue": "={{$json.temperatura}}",
+              "rightValue": "={{$json.limite}}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -576,
+        -176
+      ],
+      "id": "ee7fd0fa-6ae3-46ae-a76e-8818f9424b03",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9737fdf4-15cd-4ce1-b371-d5f470c68a56",
+              "name": "status",
+              "value": "alerta",
+              "type": "string"
+            },
+            {
+              "id": "25406d70-9fd7-4015-ab38-7203e6107ea3",
+              "name": "prioridade",
+              "value": "Alta Prioridade",
+              "type": "string"
+            },
+            {
+              "id": "c81f7536-e383-41d2-a123-161e3c9d8600",
+              "name": "mensagem",
+              "value": "Temperatura acima do limite permitido",
+              "type": "string"
+            },
+            {
+              "id": "75670eaf-ad4d-47d2-af32-781128e1e59b",
+              "name": "acao",
+              "value": "acionar equipe de manutencao",
+              "type": "string"
+            },
+            {
+              "id": "c57141e5-d3e6-4099-88c0-dc81ca970635",
+              "name": "status",
+              "value": "critico",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        -448
+      ],
+      "id": "57abfacf-ad30-492e-b567-978a56f03a01",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f837a6a-3b4f-44f4-b70e-7c8084b92d8e",
+              "name": "status",
+              "value": "Normal",
+              "type": "string"
+            },
+            {
+              "id": "ba4339c3-8b60-463b-b50c-63668d6a8989",
+              "name": "mensagem",
+              "value": "Equipamento operando dentro dos parametros",
+              "type": "string"
+            },
+            {
+              "id": "0f0d5287-972c-4af1-b664-ab0d4f9dd1f8",
+              "name": "acao",
+              "value": "nenhuma intervencao necessaria",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -336,
+        16
+      ],
+      "id": "788b3713-761f-406a-b7cf-b904cf6b7092",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {
+          "fileName": "incidente_alerta.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        -432
+      ],
+      "id": "00dd6e6c-6ee3-4edb-ade7-5d03e1c2437c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        -176
+      ],
+      "id": "898ff413-44d0-41e5-aff8-e32de4e1b7fb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ff5ba28-fdb0-4d35-a78a-d0eab33c150a",
+              "name": "",
+              "value": "=📊 RELATÓRIO COLDGUARD\n\n🚨 Status: {{$json.status}}\n\n⚠️ Prioridade:\n{{$json.prioridade}}\n\n📝 Mensagem:\n{{$json.mensagem}}\n\n🔧 Ação recomendada:\n{{$json.acao}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        -432
+      ],
+      "id": "c9085105-d1f8-4bee-ab67-a2e4f1355382",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        240,
+        -192
+      ],
+      "id": "a9db3941-faea-4cc9-9403-3a5fb78afd10",
+      "name": "Merge",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e78fcad9-dd60-4a9e-ba53-16ad2479bd6c",
+              "name": "relatorio final",
+              "value": "=📊 RELATÓRIO COLDGUARD  🏭 Empresa: {{$json.empresa}} 🔧 Equipamento: {{$json.equipamento}} 📍 Local: {{$json.local}}  🕒 Data/Hora: {{$json.data_hora}}  🌡️ Temperatura: {{$json.temperatura}} °C 🎯 Limite: {{$json.limite}} °C  🚦 Status: {{$json.status}} ⚠️ Prioridade: {{$json.prioridade}}  📝 Mensagem: {{$json.mensagem}}  🔧 Ação recomendada: {{$json.acao}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        -192
+      ],
+      "id": "520b849e-8140-422e-944d-4c41c376cb3b",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ac93fff-f1b9-4613-bc9c-3c68db548e60",
+              "name": "equipamento",
+              "value": "Compressor camara 01",
+              "type": "string"
+            },
+            {
+              "id": "985d52b5-4f7f-4e62-8e15-174f2fd4bd28",
+              "name": "temperatura",
+              "value": 2999,
+              "type": "number"
+            },
+            {
+              "id": "ab53ca38-9770-4f14-9e55-9d957cffd088",
+              "name": "limite",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "159f5283-532a-4036-bea9-bddc6d4112e8",
+              "name": "local",
+              "value": "Camara Fria A",
+              "type": "string"
+            },
+            {
+              "id": "de78e68d-42e7-486d-a745-0eec25ae35f1",
+              "name": "data_hora",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "22d3ad24-7610-4158-b08e-40ec84ce939a",
+              "name": "empresa",
+              "value": "MRC Cliente Demo",
+              "type": "string"
+            },
+            {
+              "id": "48e23c3f-099c-4762-9618-8029b5463728",
+              "name": "local",
+              "value": "Belém-PA",
+              "type": "string"
+            },
+            {
+              "id": "d7a7de42-ec9e-4e06-86ed-3d29864dfd28",
+              "name": "empresa",
+              "value": "MRC Cliente Demo",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -784,
+        -176
+      ],
+      "id": "8eee08cf-2a77-4047-bfa5-919322e47d4f",
+      "name": "Entrada Maquina 01"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "9f8267bf-32df-4c85-92e5-4c111f7ac957",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Entrada Maquina 01",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        []
+      ]
+    },
+    "Entrada Maquina 01": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fad9ead8-d0bc-428f-8d3d-1aff162753b5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f9d3e87160b2e10039c7628b8505db216ba93435d5cbe87e5ddfec5911bdb8a9"
+  },
+  "id": "buYTdAjZovgc0U3E",
+  "tags": []
+}
